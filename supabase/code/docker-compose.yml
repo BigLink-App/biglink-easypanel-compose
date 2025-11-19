@@ -52,6 +52,8 @@ services:
   kong:
     image: kong:2.8.1
     restart: unless-stopped
+    ports:
+      - 8000:8000
     volumes:
       # https://github.com/supabase/supabase/issues/12661
       - ./volumes/api/kong.yml:/home/kong/temp.yml:ro,z
@@ -357,7 +359,7 @@ services:
     image: supabase/postgres:15.8.1.060
     restart: unless-stopped
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_PORT:-5435}:{POSTGRES_PORT_EXT:-5435}"
     volumes:
       - ./volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
       # Must be superuser to create event trigger
